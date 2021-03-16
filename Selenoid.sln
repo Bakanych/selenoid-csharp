@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Web\Web.csproj", "{4329BCD9-2E8D-4C08-927D-A18ED1FCD4E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{9084966A-C7E9-4211-9CC9-153222E25C8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{2650252C-7CA6-4B5F-ADCF-8B1F6FAA1F5A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Selenoid|Any CPU = Selenoid|Any CPU
+		Local|Any CPU = Local|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9084966A-C7E9-4211-9CC9-153222E25C8E}.Selenoid|Any CPU.ActiveCfg = Selenoid|Any CPU
+		{9084966A-C7E9-4211-9CC9-153222E25C8E}.Selenoid|Any CPU.Build.0 = Selenoid|Any CPU
+		{9084966A-C7E9-4211-9CC9-153222E25C8E}.Local|Any CPU.ActiveCfg = Local|Any CPU
+		{9084966A-C7E9-4211-9CC9-153222E25C8E}.Local|Any CPU.Build.0 = Local|Any CPU
+		{2650252C-7CA6-4B5F-ADCF-8B1F6FAA1F5A}.Selenoid|Any CPU.ActiveCfg = Selenoid|Any CPU
+		{2650252C-7CA6-4B5F-ADCF-8B1F6FAA1F5A}.Selenoid|Any CPU.Build.0 = Selenoid|Any CPU
+		{2650252C-7CA6-4B5F-ADCF-8B1F6FAA1F5A}.Local|Any CPU.ActiveCfg = Local|Any CPU
+		{2650252C-7CA6-4B5F-ADCF-8B1F6FAA1F5A}.Local|Any CPU.Build.0 = Local|Any CPU
+		{4329BCD9-2E8D-4C08-927D-A18ED1FCD4E4}.Selenoid|Any CPU.ActiveCfg = Selenoid|Any CPU
+		{4329BCD9-2E8D-4C08-927D-A18ED1FCD4E4}.Selenoid|Any CPU.Build.0 = Selenoid|Any CPU
+		{4329BCD9-2E8D-4C08-927D-A18ED1FCD4E4}.Local|Any CPU.ActiveCfg = Local|Any CPU
+		{4329BCD9-2E8D-4C08-927D-A18ED1FCD4E4}.Local|Any CPU.Build.0 = Local|Any CPU
+	EndGlobalSection
+EndGlobal

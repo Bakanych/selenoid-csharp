@@ -1,0 +1,25 @@
+{
+  "chrome": {
+    "default": "89.0",
+    "versions": {
+      "89.0": {
+        "image": "selenoid/chrome",
+        "port": "4444",
+        "path": "/",
+        "env": [
+          "VERBOSE=true"
+        ]
+      }
+    }
+  },
+  "firefox": {
+    "default": "86.0",
+    "versions": {
+      "86.0": {
+        "image": "selenoid/firefox",
+        "port": "4444",
+        "path": "/wd/hub"
+      }
+    }
+  }
+}

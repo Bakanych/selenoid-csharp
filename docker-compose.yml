@@ -1,0 +1,50 @@
+﻿version: "3"
+
+services:
+  selenoid:
+    environment:
+      - VERBOSE=true
+    image: aerokube/selenoid:latest-release
+    ports:
+      - 4444:4444
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./selenoid:/etc/selenoid
+      - ./selenoid/logs:/opt/selenoid/logs
+      - ./selenoid/video:/opt/selenoid/video
+    command: [
+        "-conf",
+        "/etc/selenoid/browsers.json",
+        "-container-network",
+        "test-net",
+        "-limit",
+        "8",
+        #        "-save-all-logs",
+        #        "-capture-driver-logs",
+        "-video-output-dir",
+        "/opt/selenoid/video",
+        "-log-output-dir",
+        "/opt/selenoid/logs",
+      ]
+
+  web:
+    image: nginx
+    volumes:
+      - ./static:/usr/share/nginx/html
+    ports:
+      - 80:80
+
+  tests:
+    build:
+      context: .
+    command: >
+      sh -c "cd /app/Test
+      && rm -rf ./TestResults/*
+      && dotnet test -c ${CONFIGURATION}"
+    depends_on:
+      - web
+      - selenoid
+
+networks:
+  default:
+    name: test-net

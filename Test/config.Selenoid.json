@@ -1,0 +1,6 @@
+﻿{
+  "baseUrl": "http://web/index.html",
+  "browser": "Chrome",
+  "selenoid": true,
+  "selenoidHubUrl": "http://selenoid:4444/wd/hub"
+}

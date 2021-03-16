@@ -1,0 +1,5 @@
+﻿{
+  "baseUrl": "index.html",
+  "browser": "Chrome",
+  "selenoid": false
+}
