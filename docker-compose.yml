@@ -2,8 +2,6 @@
 
 services:
   selenoid:
-    environment:
-      - VERBOSE=true
     image: aerokube/selenoid:latest-release
     ports:
       - 4444:4444
