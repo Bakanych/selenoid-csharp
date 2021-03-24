@@ -22,7 +22,7 @@ namespace Test
             Console.WriteLine(this.app.WebDriver.Title);
             Assert.That(this.app.WebDriver.Title, Is.EqualTo("Test Title"));
             var logs = this.app.GetLogs();
-            Assert.That(logs, Has.Exactly(1).Items.Matches<LogEntry>(x=>x.Level == LogLevel.Severe));
+            Assert.That(logs, Has.Some.Matches<LogEntry>(x=>x.Level == LogLevel.Severe));
 
             
         }

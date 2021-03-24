@@ -85,7 +85,7 @@ namespace Web
                 {
                     ["VERBOSE"] = true,
                 });
-                webDriverFunc = () => new RemoteWebDriverWithLogs(new Uri("http://localhost:9515"), options);
+                webDriverFunc = () => new RemoteWebDriverWithLogs(new Uri(Config.SelenoidHubUrl), options);
             }
 
             var webDriver = webDriverFunc.Invoke();
