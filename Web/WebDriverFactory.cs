@@ -10,6 +10,37 @@ using OpenQA.Selenium.Support.Events;
 
 namespace Web
 {
+    // https://github.com/SeleniumHQ/selenium/issues/8229
+    internal class RemoteWebDriverWithLogs : RemoteWebDriver, ISupportsLogs
+    {
+        public RemoteWebDriverWithLogs(DriverOptions options) : base(options)
+        {
+        }
+
+        public RemoteWebDriverWithLogs(ICapabilities desiredCapabilities) : base(desiredCapabilities)
+        {
+        }
+
+        public RemoteWebDriverWithLogs(Uri remoteAddress, DriverOptions options) : base(remoteAddress, options)
+        {
+        }
+
+        public RemoteWebDriverWithLogs(Uri remoteAddress, ICapabilities desiredCapabilities) : base(remoteAddress,
+            desiredCapabilities)
+        {
+        }
+
+        public RemoteWebDriverWithLogs(Uri remoteAddress, ICapabilities desiredCapabilities, TimeSpan commandTimeout) :
+            base(remoteAddress, desiredCapabilities, commandTimeout)
+        {
+        }
+
+        public RemoteWebDriverWithLogs(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) : base(
+            commandExecutor, desiredCapabilities)
+        {
+        }
+    }
+
     public sealed class WebDriverFactory
     {
         public static IWebDriver GetWebDriver(bool withEvents)
@@ -21,9 +52,9 @@ namespace Web
             {
                 case BrowserType.Chrome:
                     options = new ChromeOptions();
-                    ((ChromeOptions) options).AddArgument("no-sandbox");
-                    ((ChromeOptions) options).AddArgument("headless");
-                    options.SetLoggingPreference(LogType.Browser, LogLevel.Info);
+                    // ((ChromeOptions) options).AddArgument("no-sandbox");
+                    // ((ChromeOptions) options).AddArgument("headless");
+                    options.SetLoggingPreference(LogType.Browser, LogLevel.All);
                     webDriverFunc = () =>
                     {
                         var driver = new ChromeDriver((ChromeOptions) options);
@@ -47,13 +78,14 @@ namespace Web
                 options.AddAdditionalOption("selenoid:options", new Dictionary<string, object>
                 {
                     ["enableLog"] = true,
+                    ["enableVnc"] = false,
                     ["enableVideo"] = false,
                 });
                 options.AddAdditionalOption("env", new Dictionary<string, object>
                 {
                     ["VERBOSE"] = true,
                 });
-                webDriverFunc = () => new RemoteWebDriver(new Uri(Config.SelenoidHubUrl), options);
+                webDriverFunc = () => new RemoteWebDriverWithLogs(new Uri("http://localhost:9515"), options);
             }
 
             var webDriver = webDriverFunc.Invoke();
