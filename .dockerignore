@@ -1,4 +1,10 @@
-﻿.git
-.idea
-**/bin
-**/obj
+.idea/
+bin/
+obj/
+/packages/
+riderModule.iml
+/_ReSharper.Caches/
+
+selenoid/logs/
+selenoid/video/
+/Selenoid.sln.DotSettings.user

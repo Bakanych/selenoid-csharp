@@ -41,9 +41,9 @@ services:
       - baseUrl=${BASE_URL}
       - browser=${BROWSER}
     command: >
-      sh -c "cd /app/Test
+      sh -c "cd /src/Test
       && rm -rf ./TestResults/*
-      && dotnet test"
+      && dotnet test --no-restore"
     depends_on:
       - web
       - selenoid
