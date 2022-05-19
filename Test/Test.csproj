@@ -1,37 +1,28 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
         <IsPackable>false</IsPackable>
-        <Configurations>Selenoid;Local</Configurations>
+        <Configurations>Debug</Configurations>
         <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
 
-    <PropertyGroup Condition=" '$(Configuration)' == 'Selenoid' ">
-        <Optimize Condition=" '$(Optimize)' == '' ">true</Optimize>
-    </PropertyGroup>
-
-    <PropertyGroup Condition=" '$(Configuration)' == 'Local' ">
-        <DebugSymbols Condition=" '$(DebugSymbols)' == '' ">true</DebugSymbols>
-        <Optimize Condition=" '$(Optimize)' == '' ">false</Optimize>
-    </PropertyGroup>
-
     <ItemGroup>
-        <PackageReference Include="NUnit" Version="3.12.0" />
-        <PackageReference Include="NUnit3TestAdapter" Version="3.16.1" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
-        <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="89.0.4389.2300" />
-        <PackageReference Include="Selenium.WebDriver.GeckoDriver" Version="0.29.0" />
+        <PackageReference Include="NUnit" Version="3.*"/>
+        <PackageReference Include="NUnit3TestAdapter" Version="4.2.*"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0"/>
+        <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="101.0.4951.4100"/>
+        <PackageReference Include="Selenium.WebDriver.GeckoDriver" Version="0.31.0"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Web\Web.csproj" />
+        <ProjectReference Include="..\Web\Web.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="config.$(Configuration).json" Link="config.json" CopyToOutputDirectory="Always" />
-        <Content Include="../static/index.html" Link="index.html" CopyToOutputDirectory="Always" />
-        <None Remove="run.ps1" />
+        <Content Include="config*.json" CopyToOutputDirectory="Always"/>
+        <Content Include="../static/index.html" Link="index.html" CopyToOutputDirectory="Always"/>
+        <None Remove="run.ps1"/>
     </ItemGroup>
 
 </Project>

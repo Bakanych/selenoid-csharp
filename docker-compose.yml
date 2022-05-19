@@ -11,19 +11,19 @@ services:
       - ./selenoid/logs:/opt/selenoid/logs
       - ./selenoid/video:/opt/selenoid/video
     command: [
-        "-conf",
-        "/etc/selenoid/browsers.json",
-        "-container-network",
-        "test-net",
-        "-limit",
-        "8",
-        #        "-save-all-logs",
-        #        "-capture-driver-logs",
-        "-video-output-dir",
-        "/opt/selenoid/video",
-        "-log-output-dir",
-        "/opt/selenoid/logs",
-      ]
+      "-conf",
+      "/etc/selenoid/browsers.json",
+      "-container-network",
+      "test-net",
+      "-limit",
+      "8",
+      #        "-save-all-logs",
+      #        "-capture-driver-logs",
+      "-video-output-dir",
+      "/opt/selenoid/video",
+      "-log-output-dir",
+      "/opt/selenoid/logs",
+    ]
 
   web:
     image: nginx
@@ -35,10 +35,15 @@ services:
   tests:
     build:
       context: .
+    environment:
+      - isSelenoid=true
+      - selenoidHubUrl=http://selenoid:4444/wd/hub
+      - baseUrl=${BASE_URL}
+      - browser=${BROWSER}
     command: >
       sh -c "cd /app/Test
       && rm -rf ./TestResults/*
-      && dotnet test -c ${CONFIGURATION}"
+      && dotnet test"
     depends_on:
       - web
       - selenoid

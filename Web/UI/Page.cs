@@ -1,7 +1,5 @@
-﻿namespace Web.UI
+﻿namespace Web.UI;
+
+public class Page
 {
-    public class Page
-    {
-        
-    }
 }

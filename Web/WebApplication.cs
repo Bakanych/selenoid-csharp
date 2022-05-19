@@ -6,59 +6,55 @@ using System.Threading;
 using Core;
 using OpenQA.Selenium;
 using Web.UI;
-using LogEntry = OpenQA.Selenium.LogEntry;
 
-namespace Web
+namespace Web;
+
+public static class WebApplicationFactory
 {
-    public static class WebApplicationFactory
+    private static readonly ThreadLocal<WebApplication> threadedClient = new(() =>
+        new WebApplication(id++), true);
+
+    private static int id = 1;
+
+    public static void DisposeAll()
     {
-        private static readonly ThreadLocal<WebApplication> threadedClient = new(() =>
-            new WebApplication(id++), true);
-
-        private static int id = 1;
-
-        public static void DisposeAll()
-        {
-            threadedClient.Values.ToList().ForEach(x => x.Dispose());
-        }
-
-        public static WebApplication GetInstance()
-        {
-            return threadedClient.Value;
-        }
+        threadedClient.Values.ToList().ForEach(x => x.Dispose());
     }
 
-    public class WebApplication : IDisposable
+    public static WebApplication GetInstance()
     {
-        public IWebDriver WebDriver;
-        public int Id { get; }
+        return threadedClient.Value;
+    }
+}
 
-        public WebApplication(int id)
-        {
-            this.Id = id;
-        }
+public class WebApplication : IDisposable
+{
+    public IWebDriver WebDriver;
 
-        public Page GoTo(string path)
-        {
-            if (this.WebDriver == null)
-            {
-                this.WebDriver = WebDriverFactory.GetWebDriver(false);
-            }
+    public WebApplication(int id)
+    {
+        Id = id;
+    }
 
-            this.WebDriver.Url = Path.Combine(Config.BaseUrl, path);
-            return new Page();
-        }
+    public int Id { get; }
 
-     
+    public void Dispose()
+    {
+        WebDriver?.Quit();
+    }
 
-        public ReadOnlyCollection<LogEntry> GetLogs()
-        {
-            return this.WebDriver?.Manage().Logs.GetLog(LogType.Browser);
-        }
+    public Page GoTo(string path)
+    {
+        WebDriver ??= WebDriverFactory.GetWebDriver(false);
+        var baseUrl = Config.TestSettings.BaseUrl.StartsWith("http")
+            ? Config.TestSettings.BaseUrl
+            : Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Config.TestSettings.BaseUrl);
+        WebDriver.Url = Path.Combine(baseUrl, path);
+        return new Page();
+    }
 
-        public void Dispose()
-        {
-            this.WebDriver?.Quit();
-        }
+    public ReadOnlyCollection<LogEntry> GetLogs()
+    {
+        return WebDriver?.Manage().Logs.GetLog(LogType.Browser);
     }
 }

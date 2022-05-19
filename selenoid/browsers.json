@@ -1,11 +1,15 @@
 {
   "chrome": {
-    "default": "89.0",
+    "default": "10",
     "versions": {
-      "89.0": {
+      "10": {
         "image": "selenoid/chrome",
         "port": "4444",
         "path": "/",
+        "shmSize": 536870912,
+        "volumes": [
+          "/tmp/upload:/tmp/upload:ro"
+        ],
         "env": [
           "VERBOSE=true"
         ]

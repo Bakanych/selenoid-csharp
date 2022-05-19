@@ -8,108 +8,106 @@ using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.Events;
 
-namespace Web
+namespace Web;
+
+// https://github.com/SeleniumHQ/selenium/issues/8229
+internal class RemoteWebDriverWithLogs : RemoteWebDriver, ISupportsLogs
 {
-    // https://github.com/SeleniumHQ/selenium/issues/8229
-    internal class RemoteWebDriverWithLogs : RemoteWebDriver, ISupportsLogs
+    public RemoteWebDriverWithLogs(DriverOptions options) : base(options)
     {
-        public RemoteWebDriverWithLogs(DriverOptions options) : base(options)
-        {
-        }
-
-        public RemoteWebDriverWithLogs(ICapabilities desiredCapabilities) : base(desiredCapabilities)
-        {
-        }
-
-        public RemoteWebDriverWithLogs(Uri remoteAddress, DriverOptions options) : base(remoteAddress, options)
-        {
-        }
-
-        public RemoteWebDriverWithLogs(Uri remoteAddress, ICapabilities desiredCapabilities) : base(remoteAddress,
-            desiredCapabilities)
-        {
-        }
-
-        public RemoteWebDriverWithLogs(Uri remoteAddress, ICapabilities desiredCapabilities, TimeSpan commandTimeout) :
-            base(remoteAddress, desiredCapabilities, commandTimeout)
-        {
-        }
-
-        public RemoteWebDriverWithLogs(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) : base(
-            commandExecutor, desiredCapabilities)
-        {
-        }
     }
 
-    public sealed class WebDriverFactory
+    public RemoteWebDriverWithLogs(ICapabilities desiredCapabilities) : base(desiredCapabilities)
     {
-        public static IWebDriver GetWebDriver(bool withEvents)
+    }
+
+    public RemoteWebDriverWithLogs(Uri remoteAddress, DriverOptions options) : base(remoteAddress, options)
+    {
+    }
+
+    public RemoteWebDriverWithLogs(Uri remoteAddress, ICapabilities desiredCapabilities) : base(remoteAddress,
+        desiredCapabilities)
+    {
+    }
+
+    public RemoteWebDriverWithLogs(Uri remoteAddress, ICapabilities desiredCapabilities, TimeSpan commandTimeout) :
+        base(remoteAddress, desiredCapabilities, commandTimeout)
+    {
+    }
+
+    public RemoteWebDriverWithLogs(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) : base(
+        commandExecutor, desiredCapabilities)
+    {
+    }
+}
+
+public sealed class WebDriverFactory
+{
+    public static IWebDriver GetWebDriver(bool withEvents)
+    {
+        Func<IWebDriver> webDriverFunc;
+        DriverOptions options;
+
+        switch (Config.TestSettings.Browser)
         {
-            Func<IWebDriver> webDriverFunc;
-            DriverOptions options;
-
-            switch (Config.Browser)
-            {
-                case BrowserType.Chrome:
-                    options = new ChromeOptions();
-                    // ((ChromeOptions) options).AddArgument("no-sandbox");
-                    // ((ChromeOptions) options).AddArgument("headless");
-                    options.SetLoggingPreference(LogType.Browser, LogLevel.All);
-                    webDriverFunc = () =>
-                    {
-                        var driver = new ChromeDriver((ChromeOptions) options);
-                        return driver;
-                    };
-                    break;
-
-                case BrowserType.Firefox:
-                    options = new FirefoxOptions {AcceptInsecureCertificates = true};
-                    options.SetLoggingPreference(LogType.Browser, LogLevel.All);
-                    webDriverFunc = () => new FirefoxDriver((FirefoxOptions) options);
-                    break;
-
-                default:
-                    throw new Exception($"Browser {Config.Browser} is not supported");
-            }
-
-
-            if (Config.Selenoid)
-            {
-                options.AddAdditionalOption("selenoid:options", new Dictionary<string, object>
+            case BrowserType.Chrome:
+                options = new ChromeOptions();
+                // ((ChromeOptions) options).AddArgument("no-sandbox");
+                // ((ChromeOptions) options).AddArgument("headless");
+                options.SetLoggingPreference(LogType.Browser, LogLevel.All);
+                webDriverFunc = () =>
                 {
-                    ["enableLog"] = true,
-                    ["enableVnc"] = false,
-                    ["enableVideo"] = false,
-                });
-                options.AddAdditionalOption("env", new Dictionary<string, object>
-                {
-                    ["VERBOSE"] = true,
-                });
-                webDriverFunc = () => new RemoteWebDriverWithLogs(new Uri(Config.SelenoidHubUrl), options);
-            }
+                    var driver = new ChromeDriver((ChromeOptions) options);
+                    return driver;
+                };
+                break;
 
-            var webDriver = webDriverFunc.Invoke();
-            webDriver.Manage().Window.Size = new Size(1600, 800);
+            case BrowserType.Firefox:
+                options = new FirefoxOptions {AcceptInsecureCertificates = true};
+                options.SetLoggingPreference(LogType.Browser, LogLevel.All);
+                webDriverFunc = () => new FirefoxDriver((FirefoxOptions) options);
+                break;
 
-            return (withEvents) ? GetEventFiringWebDriver(webDriver) : webDriver;
+            default:
+                throw new Exception($"Browser {Config.TestSettings.Browser} is not supported");
         }
 
-        private static EventFiringWebDriver GetEventFiringWebDriver(IWebDriver driver)
+        if (Config.TestSettings.IsSelenoid)
         {
-            var eventDriver = new EventFiringWebDriver(driver);
-            eventDriver.ElementClicking += EventDriver_ElementClicking;
-            eventDriver.ElementValueChanging += EventDriver_ElementValueChanging;
-            return eventDriver;
+            options.AddAdditionalOption("selenoid:options", new Dictionary<string, object>
+            {
+                ["enableLog"] = true,
+                ["enableVnc"] = false,
+                ["enableVideo"] = false
+            });
+            options.AddAdditionalOption("env", new Dictionary<string, object>
+            {
+                ["VERBOSE"] = true
+            });
+            webDriverFunc = () => new RemoteWebDriverWithLogs(new Uri(Config.TestSettings.SelenoidHubUrl), options);
         }
 
-        private static void EventDriver_ElementValueChanging(object sender, WebElementValueEventArgs e)
-        {
-            e.Element.Highlight();
-        }
+        var webDriver = webDriverFunc.Invoke();
+        webDriver.Manage().Window.Size = new Size(1600, 800);
 
-        private static void EventDriver_ElementClicking(object sender, WebElementEventArgs e)
-        {
-            e.Element.Highlight();
-        }
+        return withEvents ? GetEventFiringWebDriver(webDriver) : webDriver;
+    }
+
+    private static EventFiringWebDriver GetEventFiringWebDriver(IWebDriver driver)
+    {
+        var eventDriver = new EventFiringWebDriver(driver);
+        eventDriver.ElementClicking += EventDriver_ElementClicking;
+        eventDriver.ElementValueChanging += EventDriver_ElementValueChanging;
+        return eventDriver;
+    }
+
+    private static void EventDriver_ElementValueChanging(object sender, WebElementValueEventArgs e)
+    {
+        e.Element.Highlight();
+    }
+
+    private static void EventDriver_ElementClicking(object sender, WebElementEventArgs e)
+    {
+        e.Element.Highlight();
     }
 }

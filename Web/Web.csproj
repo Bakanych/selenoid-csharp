@@ -1,27 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
-        <Configurations>Selenoid;Local</Configurations>
+        <TargetFramework>net6.0</TargetFramework>
+        <Configurations>Debug</Configurations>
         <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
 
-    <PropertyGroup Condition=" '$(Configuration)' == 'Selenoid' ">
-      <Optimize Condition=" '$(Optimize)' == '' ">true</Optimize>
-    </PropertyGroup>
-
-    <PropertyGroup Condition=" '$(Configuration)' == 'Local' ">
-      <DebugSymbols Condition=" '$(DebugSymbols)' == '' ">true</DebugSymbols>
-      <Optimize Condition=" '$(Optimize)' == '' ">false</Optimize>
-    </PropertyGroup>
-
     <ItemGroup>
-      <PackageReference Include="Selenium.Support" Version="4.0.0-beta2" />
-      <PackageReference Include="Selenium.WebDriver" Version="4.0.0-beta2" />
+        <PackageReference Include="Selenium.Support" Version="4.1.1"/>
+        <PackageReference Include="Selenium.WebDriver" Version="4.1.1"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Core\Core.csproj" />
+        <ProjectReference Include="..\Core\Core.csproj"/>
     </ItemGroup>
 
 </Project>

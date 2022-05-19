@@ -3,34 +3,31 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using Web;
 
-namespace Test
+namespace Test;
+
+public class Fixture
 {
-    public class Fixture
+    private WebApplication app;
+
+    [OneTimeSetUp]
+    public void OneTimeSetUp()
     {
-        private WebApplication app;
+        app = WebApplicationFactory.GetInstance();
+    }
 
-        [OneTimeSetUp]
-        public void OneTimeSetUp()
-        {
-            this.app = WebApplicationFactory.GetInstance();
-        }
+    [Test]
+    public void GetConsoleErrorLogs()
+    {
+        app.GoTo("");
+        Console.WriteLine(app.WebDriver.Title);
+        Assert.That(app.WebDriver.Title, Is.EqualTo("Test Title"));
+        var logs = app.GetLogs();
+        Assert.That(logs, Has.Some.Matches<LogEntry>(x => x.Level == LogLevel.Severe));
+    }
 
-        [Test]
-        public void GetConsoleErrorLogs()
-        {
-            this.app.GoTo("");
-            Console.WriteLine(this.app.WebDriver.Title);
-            Assert.That(this.app.WebDriver.Title, Is.EqualTo("Test Title"));
-            var logs = this.app.GetLogs();
-            Assert.That(logs, Has.Some.Matches<LogEntry>(x=>x.Level == LogLevel.Severe));
-
-            
-        }
-        [OneTimeTearDown]
-        public void OneTimeTearDown()
-        {
-            this.app.Dispose();
-            
-        }
+    [OneTimeTearDown]
+    public void OneTimeTearDown()
+    {
+        app.Dispose();
     }
 }

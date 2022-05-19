@@ -1,7 +1,7 @@
-﻿namespace Core
+﻿namespace Core;
+
+public enum BrowserType
 {
-    public enum BrowserType
-    {
-        Chrome, Firefox
-    }
+    Chrome,
+    Firefox
 }
