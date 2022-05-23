@@ -18,11 +18,12 @@ public class Fixture
     [Test]
     public void GetConsoleErrorLogs()
     {
-        app.GoTo("");
+        app.NavigateTo("");
         Console.WriteLine(app.WebDriver.Title);
         Assert.That(app.WebDriver.Title, Is.EqualTo("Test Title"));
         var logs = app.GetLogs();
-        Assert.That(logs, Has.Some.Matches<LogEntry>(x => x.Level == LogLevel.Severe));
+        Assert.That(logs,
+            Has.Some.Matches<LogEntry>(x => x.Level == LogLevel.Severe && x.Message.Contains("help me!")));
     }
 
     [OneTimeTearDown]

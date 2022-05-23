@@ -43,7 +43,7 @@ public class WebApplication : IDisposable
         WebDriver?.Quit();
     }
 
-    public Page GoTo(string path)
+    public Page NavigateTo(string path)
     {
         WebDriver ??= WebDriverFactory.GetWebDriver(false);
         var baseUrl = Config.TestSettings.BaseUrl.StartsWith("http")
