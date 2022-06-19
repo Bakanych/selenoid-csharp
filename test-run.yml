@@ -1,0 +1,14 @@
+﻿version: "2"
+
+services:
+  test-run:
+    build:
+      context: .
+    environment:
+      - isSelenoid=true
+      - selenoidHubUrl=http://selenoid:4444/wd/hub
+      - baseUrl=${BASE_URL}
+      - browser=${BROWSER}    
+    depends_on:
+      - web
+      - selenoid

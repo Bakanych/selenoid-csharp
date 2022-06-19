@@ -1,33 +1,24 @@
+using Core;
 using NUnit.Framework;
 using OpenQA.Selenium;
-using Web;
 
 namespace Test;
 
-public class Fixture
+public class Fixture : BaseFixture
 {
-    private WebApplication app;
-
-    [OneTimeSetUp]
-    public void OneTimeSetUp()
+    [Test]
+    public void GetBrowserTitle()
     {
-        app = WebApplicationFactory.GetInstance();
+        Assert.That(App.WebDriver.Title, Is.EqualTo("Test Title"));
     }
 
     [Test]
+    [IgnoreInBrowser(BrowserType.Firefox)]
     public void GetConsoleErrorLogs()
     {
-        app.NavigateTo("");
-        Assert.That(app.WebDriver.Title, Is.EqualTo("Test Title"));
-
-        var logs = app.GetLogs();
+        var props = TestContext.CurrentContext.Test.Properties;
+        var logs = App.GetLogs();
         Assert.That(logs,
             Has.Some.Matches<LogEntry>(x => x.Level == LogLevel.Severe && x.Message.Contains("help me!")));
-    }
-
-    [OneTimeTearDown]
-    public void OneTimeTearDown()
-    {
-        app.Dispose();
     }
 }

@@ -15,3 +15,5 @@ COPY . .
 
 RUN dotnet build
 
+ENTRYPOINT dotnet test --no-restore --filter "${testFilter}"
+

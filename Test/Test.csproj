@@ -8,21 +8,21 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="NUnit" Version="3.*"/>
-        <PackageReference Include="NUnit3TestAdapter" Version="4.2.*"/>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0"/>
-        <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="102.0.5005.6102"/>
-        <PackageReference Include="Selenium.WebDriver.GeckoDriver" Version="0.31.0.1"/>
+        <PackageReference Include="NUnit" Version="3.*" />
+        <PackageReference Include="NUnit3TestAdapter" Version="4.2.*" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
+        <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="102.0.5005.6102" />
+        <PackageReference Include="Selenium.WebDriver.GeckoDriver" Version="0.31.0.1" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Web\Web.csproj"/>
+        <ProjectReference Include="..\Web\Web.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="config*.json" CopyToOutputDirectory="Always"/>
-        <Content Include="../static/index.html" Link="index.html" CopyToOutputDirectory="Always"/>
-        <None Remove="run.ps1"/>
+        <Content Include="config*.json" CopyToOutputDirectory="Always" />
+        <Content Include="../static/index.html" Link="index.html" CopyToOutputDirectory="Always" />
+        <None Remove="run.ps1" />
     </ItemGroup>
 
 </Project>

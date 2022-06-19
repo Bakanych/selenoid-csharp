@@ -1,10 +1,10 @@
-﻿version: "3"
+﻿version: "2"
 
 services:
   selenoid:
     image: aerokube/selenoid:latest-release
     ports:
-      - 4444:4444
+      - "4444:4444"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./selenoid:/etc/selenoid
@@ -30,39 +30,23 @@ services:
     volumes:
       - ./static:/usr/share/nginx/html
     ports:
-      - 80:80
+      - "80:80"
 
   test-chrome:
-    build:
-      context: .
+    extends:
+      file: test-run.yml
+      service: test-run
     environment:
-      - isSelenoid=true
-      - selenoidHubUrl=http://selenoid:4444/wd/hub
-      - baseUrl=${BASE_URL}
-      - browser=${BROWSER}
-    command: >
-      sh -c "cd /src/Test
-      && rm -rf ./TestResults/*
-      && dotnet test --no-restore"
-    depends_on:
-      - web
-      - selenoid
-
+      - browser=Chrome
+      - testFilter=IgnoreInBrowser!=Chrome
+  
   test-firefox:
-    build:
-      context: .
+    extends:
+      file: test-run.yml
+      service: test-run
     environment:
-      - isSelenoid=true
-      - selenoidHubUrl=http://selenoid:4444/wd/hub
-      - baseUrl=${BASE_URL}
       - browser=Firefox
-    command: >
-      sh -c "cd /src/Test
-      && rm -rf ./TestResults/*
-      && dotnet test --no-restore"
-    depends_on:
-      - web
-      - selenoid
+      - testFilter=IgnoreInBrowser!=Firefox
 
 networks:
   default:
