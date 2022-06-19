@@ -63,7 +63,7 @@ public sealed class WebDriverFactory
                 break;
 
             case BrowserType.Firefox:
-                options = new FirefoxOptions {AcceptInsecureCertificates = true};
+                options = new FirefoxOptions { AcceptInsecureCertificates = true };
                 options.SetLoggingPreference(LogType.Browser, LogLevel.All);
                 webDriverFunc = () => new FirefoxDriver((FirefoxOptions) options);
                 break;
@@ -79,10 +79,6 @@ public sealed class WebDriverFactory
                 ["enableLog"] = true,
                 ["enableVnc"] = false,
                 ["enableVideo"] = false
-            });
-            options.AddAdditionalOption("env", new Dictionary<string, object>
-            {
-                ["VERBOSE"] = true
             });
             webDriverFunc = () => new RemoteWebDriverWithLogs(new Uri(Config.TestSettings.SelenoidHubUrl), options);
         }

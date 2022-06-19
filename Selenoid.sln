@@ -14,6 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "etc", "etc", "{12FE7C3E-CB5
 		selenoid\browsers.json = selenoid\browsers.json
 		global.json = global.json
 		Dockerfile = Dockerfile
+		run.sh = run.sh
 	EndProjectSection
 EndProject
 Global
