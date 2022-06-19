@@ -14,7 +14,7 @@ public class WaitFixture: BaseFixture
         var page = App.NavigateTo<HomePage>("slow.html");
         var pageLoadTime = decimal.Parse(page.Content.TextContent); 
         timer.Stop();
-        Assert.That(timer.ElapsedMilliseconds - pageLoadTime, Is.LessThan(1000));
+        Assert.That(timer.ElapsedMilliseconds - pageLoadTime, Is.LessThan(200));
     }
     
 }
