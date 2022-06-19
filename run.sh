@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-#docker pull selenoid/chrome
-#docker pull selenoid/firefox:100.0
+docker pull selenoid/chrome
+docker pull selenoid/firefox:100.0
 
 docker-compose up --build -d --remove-orphans -t 1
 
