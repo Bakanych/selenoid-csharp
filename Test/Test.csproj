@@ -21,7 +21,7 @@
 
     <ItemGroup>
         <Content Include="config*.json" CopyToOutputDirectory="Always" />
-        <Content Include="../static/*.html" CopyToOutputDirectory="Always" />
+        <Content Include="../static/*" CopyToOutputDirectory="Always" />
     </ItemGroup>
 
 </Project>

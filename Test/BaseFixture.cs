@@ -2,6 +2,7 @@ using System;
 using Core;
 using NUnit.Framework;
 using Web;
+using Web.UIModel;
 
 namespace Test;
 
@@ -19,7 +20,7 @@ public abstract class BaseFixture
     [SetUp]
     public void BeforeTest()
     {
-        App.NavigateTo(Config.TestData.Get<string>("testPage"));
+        App.NavigateTo<HomePage>(Config.TestData.Get<string>("testPage"));
     }
 
     [OneTimeTearDown]

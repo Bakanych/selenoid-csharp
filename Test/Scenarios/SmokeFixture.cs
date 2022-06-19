@@ -2,9 +2,9 @@ using Core;
 using NUnit.Framework;
 using OpenQA.Selenium;
 
-namespace Test;
+namespace Test.Scenarios;
 
-public class Fixture : BaseFixture
+public class SmokeFixture : BaseFixture
 {
     [Test]
     public void GetBrowserTitle()
