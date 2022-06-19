@@ -21,7 +21,8 @@
 
     <ItemGroup>
         <Content Include="config*.json" CopyToOutputDirectory="Always" />
-        <Content Include="../static/index.html" Link="index.html" CopyToOutputDirectory="Always" />
+        <Content Include="test-data*.json" CopyToOutputDirectory="Always" />
+        <Content Include="../static/*.html" CopyToOutputDirectory="Always" />
         <None Remove="run.ps1" />
     </ItemGroup>
 

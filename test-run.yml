@@ -5,6 +5,7 @@ services:
     build:
       context: .
     environment:
+      - TEST_ENVIRONMENT=${TEST_ENVIRONMENT}
       - isSelenoid=true
       - selenoidHubUrl=http://selenoid:4444/wd/hub
       - baseUrl=${BASE_URL}

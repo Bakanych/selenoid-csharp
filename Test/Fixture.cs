@@ -9,16 +9,16 @@ public class Fixture : BaseFixture
     [Test]
     public void GetBrowserTitle()
     {
-        Assert.That(App.WebDriver.Title, Is.EqualTo("Test Title"));
+        Assert.That(App.WebDriver.Title, Is.EqualTo(TestData.Get<string>("pageTitle")));
     }
 
     [Test]
     [IgnoreInBrowser(BrowserType.Firefox)]
     public void GetConsoleErrorLogs()
     {
-        var props = TestContext.CurrentContext.Test.Properties;
+        var errorMessage = TestData.Get<string>("errorMessage");
         var logs = App.GetLogs();
         Assert.That(logs,
-            Has.Some.Matches<LogEntry>(x => x.Level == LogLevel.Severe && x.Message.Contains("help me!")));
+            Has.Some.Matches<LogEntry>(x => x.Level == LogLevel.Severe && x.Message.Contains(errorMessage)));
     }
 }

@@ -1,3 +1,5 @@
+using System;
+using Core;
 using NUnit.Framework;
 using Web;
 
@@ -11,12 +13,13 @@ public abstract class BaseFixture
     public void OneTimeSetUp()
     {
         App = WebApplicationFactory.GetInstance();
+        Console.WriteLine($"Environment name: ${TestData.EnvironmentName}");
     }
 
     [SetUp]
     public void BeforeTest()
     {
-        App.NavigateTo("");
+        App.NavigateTo(TestData.Get<string>("homePage"));
     }
 
     [OneTimeTearDown]
