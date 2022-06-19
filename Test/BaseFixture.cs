@@ -13,13 +13,13 @@ public abstract class BaseFixture
     public void OneTimeSetUp()
     {
         App = WebApplicationFactory.GetInstance();
-        Console.WriteLine($"Environment name: ${TestData.EnvironmentName}");
+        Console.WriteLine($"Environment name: ${Config.EnvironmentName}");
     }
 
     [SetUp]
     public void BeforeTest()
     {
-        App.NavigateTo(TestData.Get<string>("homePage"));
+        App.NavigateTo(Config.TestData.Get<string>("testPage"));
     }
 
     [OneTimeTearDown]

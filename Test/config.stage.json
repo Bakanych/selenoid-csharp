@@ -1,0 +1,9 @@
+{
+  "TestSettings": {
+    "browser": "Firefox"
+  },
+  "TestData": {
+    "testPage": "stage.html",
+    "errorMessage": "too late..."
+  }
+}

@@ -13,8 +13,11 @@ public class TestSettings
 
 public static class Config
 {
+    private static readonly IConfigurationSection TestDataSection;
+
     static Config()
     {
+        var env = Environment.GetEnvironmentVariable(Const.TestEnvironmentVariableName) ?? "local";
         ConfigurationBuilder builder = new();
 
         // remove existing sources
@@ -24,11 +27,22 @@ public static class Config
 
         var configurationRoot = builder
             .AddJsonFile("config.json", false, true)
+            .AddJsonFile($"config.{env}.json", true, true)
             .AddEnvironmentVariables()
             .Build();
 
-        TestSettings = configurationRoot.Get<TestSettings>();
+        TestSettings = configurationRoot.GetSection(nameof(TestSettings)).Get<TestSettings>();
+        TestDataSection = configurationRoot.GetSection(nameof(TestData));
     }
 
+    public static string EnvironmentName => Environment.GetEnvironmentVariable(Const.TestEnvironmentVariableName);
     public static TestSettings TestSettings { get; }
+
+    public static class TestData
+    {
+        public static T Get<T>(string key)
+        {
+            return TestDataSection.GetSection(key.Replace(".", ":")).Get<T>();
+        }
+    }
 }

@@ -56,7 +56,7 @@ public class WebApplication : IDisposable
 
     public ReadOnlyCollection<LogEntry> GetLogs()
     {
-        return WebDriver!=null && WebDriver.Manage().Logs.AvailableLogTypes.Contains(LogType.Browser)
+        return WebDriver != null && WebDriver.Manage().Logs.AvailableLogTypes.Contains(LogType.Browser)
             ? WebDriver?.Manage().Logs.GetLog(LogType.Browser)
             : new ReadOnlyCollection<LogEntry>(new List<LogEntry>());
     }

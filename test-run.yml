@@ -6,10 +6,10 @@ services:
       context: .
     environment:
       - TEST_ENVIRONMENT=${TEST_ENVIRONMENT}
-      - isSelenoid=true
-      - selenoidHubUrl=http://selenoid:4444/wd/hub
-      - baseUrl=${BASE_URL}
-      - browser=${BROWSER}    
+      - TestSettings__isSelenoid=true
+      - TestSettings__selenoidHubUrl=http://selenoid:4444/wd/hub
+      - TestSettings__baseUrl=${BASE_URL}
+      - TestSettings__browser=${BROWSER}
     depends_on:
       - web
       - selenoid

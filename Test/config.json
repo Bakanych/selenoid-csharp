@@ -1,5 +1,11 @@
 ﻿{
-  "baseUrl": "",
-  "browser": "Chrome",
-  "selenoid": false
+  "TestSettings": {
+    "baseUrl": "",
+    "browser": "Chrome"
+  },
+  "TestData": {
+    "testPage": "index.html",
+    "pageTitle": "Test Title",
+    "errorMessage": "help me!"
+  }
 }
