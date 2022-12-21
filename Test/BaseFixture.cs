@@ -1,4 +1,3 @@
-using System;
 using Core;
 using NUnit.Framework;
 using Web;
@@ -18,6 +17,4 @@ public abstract class BaseFixture
         App = WebApplicationFactory.GetInstance();
         App.NavigateTo<HomePage>(Config.TestData.Get<string>("testPage"));
     }
-
-
 }
